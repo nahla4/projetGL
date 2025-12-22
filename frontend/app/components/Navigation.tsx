@@ -1,395 +1,234 @@
 'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 import {
-  FaHome,
-  FaShoppingBasket,
-  FaHeart,
-  FaEnvelope,
   FaUserCircle,
   FaBell,
   FaMoon,
   FaSun,
   FaBars,
-  FaTimes
-} from "react-icons/fa";
+  FaTimes,
+} from 'react-icons/fa';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
-// Helper function for icon color
-const getIconColor = (darkMode: boolean) => darkMode ? "#fff" : "#4A6B8A";
+const mainLinks = [
+  { href: '/', label: 'Accueil' },
+  { href: '/booking', label: 'Réservations' }, // matches /app/booking/page.tsx
+  { href: '/favoris', label: 'Favoris' },
+  { href: '/destinations', label: 'Destinations' },
+  { href: '/contact', label: 'Contact' },
+];
 
 export default function Navigation() {
   const [profileMenu, setProfileMenu] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const pathname = usePathname();
 
-  // Shared button style
-  const navBtnStyle = (hover: boolean) => ({
-    color: getIconColor(darkMode),
-    textDecoration: "none",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    fontWeight: 600,
-    fontSize: "1.05rem",
-    padding: "0.45rem 1rem",
-    borderRadius: "12px",
-    background: hover ? "rgba(74,107,138,0.14)" : "none",
-    transition: "background 0.18s, color 0.18s, transform 0.2s",
-    position: "relative",
-    cursor: "pointer",
-  });
-
-  // Icon-only hover for main nav buttons
-  const [hoverTab, setHoverTab] = useState("");
+  const toggleTheme = () => setDarkMode((v) => !v);
 
   return (
     <>
-      <nav
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0.25rem 1.2rem",
-          background: darkMode ? "#233558" : "rgba(255,255,255,0.92)",
-          backdropFilter: "blur(10px)",
-          boxShadow: "0 2px 18px rgba(80,120,150,0.09)",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1200,
-          borderBottom: `1px solid ${darkMode ? "#3A5378" : "#E5E5E5"}`,
-          transition: "all 0.3s",
-          minHeight: "54px"
-        }}
-      >
-        {/* Logo only */}
-        <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <img
-            src="/logo.jpg"
-            alt="DZ-TourGuide Logo"
-            style={{
-              height: 38,
-              borderRadius: 7,
-              background: "#FFF",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.07)"
-            }}
-          />
-        </a>
-        
-        {/* Desktop nav */}
-        <div
-          className="desktop-nav"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1.7 rem"
-          }}
-        >
-          {/* Accueil */}
-          <a
+      {/* Transparent fixed wrapper */}
+      <header className="pointer-events-none fixed inset-x-0 top-4 z-40 flex justify-center px-4">
+        {/* Capsule nav */}
+        <nav className="pointer-events-auto flex w-full max-w-6xl items-center justify-between rounded-full bg-slate-900/60 px-5 py-2 text-sm text-slate-50 shadow-[0_18px_45px_rgba(0,0,0,0.45)] backdrop-blur-md border border-white/10">
+          {/* Logo */}
+          <Link
             href="/"
-            style={navBtnStyle(hoverTab === "home")}
-            onMouseEnter={() => setHoverTab("home")}
-            onMouseLeave={() => setHoverTab("")}
+            className="flex items-center gap-2 text-base font-semibold tracking-tight"
           >
-            <FaHome size={22} />
-            <span style={{ marginTop: 3 }}>{/*[translate:Accueil]*/}Accueil</span>
-          </a>
-          {/* Réservation */}
-          <a
-            href="/reservations"
-            style={navBtnStyle(hoverTab === "reservation")}
-            onMouseEnter={() => setHoverTab("reservation")}
-            onMouseLeave={() => setHoverTab("")}
-          >
-            <FaShoppingBasket size={22} />
-            <span style={{ marginTop: 3 }}>Réservation</span>
-          </a>
-          {/* Favoris */}
-          <a
-            href="/favoris"
-            style={navBtnStyle(hoverTab === "favoris")}
-            onMouseEnter={() => setHoverTab("favoris")}
-            onMouseLeave={() => setHoverTab("")}
-          >
-            <FaHeart size={22} />
-            <span style={{ marginTop: 3 }}>Favoris</span>
-          </a>
-          {/* Message */}
-          <a
-            href="/contact"
-            style={navBtnStyle(hoverTab === "contact")}
-            onMouseEnter={() => setHoverTab("contact")}
-            onMouseLeave={() => setHoverTab("")}
-          >
-            <FaEnvelope size={22} />
-            <span style={{ marginTop: 3 }}>Message</span>
-          </a>
+            <img
+              src="/logo.jpg"
+              alt="DZ‑TourGuide"
+              className="h-9 w-9 rounded-full border border-emerald-400/60 bg-white object-cover shadow"
+            />
+            <span className="hidden sm:inline">
+              DZ
+              <span className="text-emerald-400">‑TourGuide</span>
+            </span>
+          </Link>
 
-          {/* Profil dropdown */}
-          <div
-            style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center" }}
-            onMouseLeave={() => setProfileMenu(false)}
-          >
-            <button
-              style={{
-                ...navBtnStyle(hoverTab === "profil"),
-                background: hoverTab === "profil" ? "rgba(74,107,138,0.14)" : "none",
-                border: "none",
-                cursor: "pointer",
-                padding: "0.45rem",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                minWidth: 54
-              }}
-              onMouseEnter={() => setHoverTab("profil")}
-              onMouseLeave={() => setHoverTab("")}
-              onClick={() => setProfileMenu(!profileMenu)}
-            >
-              <FaUserCircle size={24} />
-              <span style={{ marginTop: 2, display: "block" }}>Profil</span>
-            </button>
-            {profileMenu && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: 44,
-                  right: -10,
-                  background: darkMode ? "#233558" : "#FFF",
-                  borderRadius: 16,
-                  boxShadow: "0 12px 32px rgba(80,120,150,0.18)",
-                  padding: '1.2rem 1.8rem',
-                  minWidth: 210,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1.2rem',
-                  alignItems: "flex-start",
-                  border: `1px solid ${darkMode ? "#3A5378" : "#E5E5E5"}`,
-                  animation: "fadeIn 0.2s ease-out",
-                }}
-              >
-                <a href="/login" style={{
-                  color: getIconColor(darkMode),
-                  fontWeight: 700,
-                  textDecoration: 'none',
-                  padding: "0.3rem 0",
-                  fontSize: "1rem"
-                }}
-                onMouseEnter={e => e.target.style.color = "#7FC8A9"}
-                onMouseLeave={e => e.target.style.color = getIconColor(darkMode)}
-                >S'inscrire / Se connecter</a>
-                <button style={{
-                  background: 'none',
-                  border: 'none',
-                  color: getIconColor(darkMode),
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  padding: "0.3rem 0",
-                  fontSize: "1rem"
-                }}
-                onMouseEnter={e => e.target.style.color = "#7FC8A9"}
-                onMouseLeave={e => e.target.style.color = getIconColor(darkMode)}
+          {/* Desktop center links */}
+          <div className="hidden flex-1 items-center justify-center gap-1 md:flex">
+            {mainLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wide transition
+                  hover:bg-white/10 hover:text-white ${
+                    active ? 'bg-white/15 text-emerald-200' : 'text-slate-200'
+                  }`}
                 >
-                  <FaBell size={19} style={{ marginRight: 10 }} /> Notifications
-                </button>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: "0.3rem 0"
-                }}>
-                  <span style={{
-                    color: getIconColor(darkMode), fontWeight: 600,
-                    fontSize: "1rem"
-                  }}>Apparence:</span>
-                  <button
-                    onClick={() => setDarkMode(!darkMode)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: "0.3rem",
-                      borderRadius: "50%",
-                      transition: "background 0.2s"
-                    }}
-                  >
-                    {darkMode ? <FaSun size={19} color="#F9B872" /> : <FaMoon size={19} color={getIconColor(darkMode)} />}
-                  </button>
-                </div>
-              </div>
-            )}
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Right icons + CTA (desktop) */}
+          <div className="hidden items-center gap-3 md:flex">
+            <button
+              type="button"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-slate-100 hover:bg-white/15"
+              onClick={() => setProfileMenu((v) => !v)}
+            >
+              <FaUserCircle className="text-lg" />
+            </button>
+
+            <button
+              type="button"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-slate-100 hover:bg-white/15"
+            >
+              <FaBell className="text-[0.95rem]" />
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-slate-100 hover:bg-white/15"
+            >
+              {darkMode ? (
+                <FaSun className="text-amber-300" />
+              ) : (
+                <FaMoon className="text-slate-200" />
+              )}
+            </button>
+
+            {/* CTA -> booking page */}
+            <Link
+              href="/booking"
+              className="ml-1 inline-flex items-center rounded-full bg-emerald-500 px-5 py-2 text-xs font-semibold uppercase tracking-wide text-white shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-400"
+            >
+              Réserver un guide
+            </Link>
+          </div>
+
+          {/* Mobile burger */}
+          <button
+            type="button"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-slate-100 hover:bg-white/15 md:hidden"
+            onClick={() => setMobileMenu((v) => !v)}
+            aria-label="Basculer le menu"
+          >
+            {mobileMenu ? <FaTimes /> : <FaBars />}
+          </button>
+        </nav>
+      </header>
+
+      {/* Profile dropdown (desktop) */}
+      {profileMenu && (
+        <div className="fixed right-[calc(50%-3rem)] top-20 z-40 hidden w-56 -translate-x-1/2 rounded-2xl border border-slate-800/80 bg-slate-900/95 p-4 text-sm text-slate-100 shadow-2xl md:block">
+          {/* Link to auth pages */}
+          <Link
+            href="/auth/login"
+            className="block rounded-md px-2 py-2 font-semibold text-slate-50 hover:bg-white/10"
+            onClick={() => setProfileMenu(false)}
+          >
+            Se connecter
+          </Link>
+          <Link
+            href="/auth/register"
+            className="mt-1 block rounded-md px-2 py-2 font-semibold text-slate-50 hover:bg-white/10"
+            onClick={() => setProfileMenu(false)}
+          >
+            S&apos;inscrire
+          </Link>
+
+          <button className="mt-1 flex w-full items-center rounded-md px-2 py-2 text-left hover:bg-white/10">
+            <FaBell className="mr-2" /> Notifications
+          </button>
+
+          <div className="mt-2 flex items-center justify-between rounded-md px-2 py-2 hover:bg-white/5">
+            <span>Apparence</span>
+            <button
+              onClick={toggleTheme}
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-black/40"
+            >
+              {darkMode ? (
+                <FaSun className="text-amber-300" />
+              ) : (
+                <FaMoon className="text-slate-100" />
+              )}
+            </button>
           </div>
         </div>
+      )}
 
-        {/* Burger menu mobile */}
-        <button
-          className="mobile-nav-toggle"
-          style={{
-            display: "none",
-            background: "none",
-            border: "none",
-            fontSize: "2rem",
-            color: getIconColor(darkMode),
-            cursor: "pointer",
-            padding: "0.4rem",
-            borderRadius: "8px",
-            transition: "background 0.2s"
-          }}
-          onClick={() => setMobileMenu(!mobileMenu)}
-          aria-label="Ouvrir le menu"
-        >
-          {mobileMenu ? <FaTimes /> : <FaBars />}
-        </button>
+      {/* Mobile overlay menu */}
+      {mobileMenu && (
+        <div className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden">
+          <div className="absolute right-0 top-16 w-72 rounded-l-3xl bg-slate-950/95 p-5 text-slate-50 shadow-2xl ring-1 ring-slate-800">
+            <div className="space-y-2 text-sm">
+              {mainLinks.map((link) => {
+                const active = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`block rounded-xl px-4 py-2 font-semibold transition ${
+                      active
+                        ? 'bg-emerald-600 text-white'
+                        : 'hover:bg-white/10'
+                    }`}
+                    onClick={() => setMobileMenu(false)}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
 
-        {/* Mobile menu */}
-        <div
-          className="mobile-nav"
-          style={{
-            display: mobileMenu ? "flex" : "none",
-            flexDirection: "column",
-            position: "fixed",
-            top: 54,
-            right: 0,
-            width: "260px",
-            height: "calc(100vh - 54px)",
-            background: darkMode ? "#233558" : "#FFF",
-            boxShadow: "-4px 0 18px rgba(80,120,150,0.12)",
-            zIndex: 1250,
-            borderLeft: `1px solid ${darkMode ? "#3A5378" : "#E5E5E5"}`,
-            animation: "slideIn 0.3s ease-out"
-          }}
-        >
-          {/* Les boutons identiques, personnalisés pour le mobile */}
-          {[
-            { href: "/", label: "Accueil", icon: <FaHome size={22} /> },
-            { href: "/reservations", label: "Réservation", icon: <FaShoppingBasket size={22} /> },
-            { href: "/favoris", label: "Favoris", icon: <FaHeart size={22} /> },
-            { href: "/contact", label: "Message", icon: <FaEnvelope size={22} /> },
-          ].map(tab => (
-            <a
-              key={tab.label}
-              href={tab.href}
-              style={{
-                color: getIconColor(darkMode),
-                textDecoration: "none",
-                fontWeight: 600,
-                fontSize: "1.09rem",
-                padding: "1.05rem 1.4rem",
-                display: "flex",
-                alignItems: "center",
-                borderBottom: `1px solid ${darkMode ? "#3A5378" : "#E5E5E5"}`,
-                gap: '1rem',
-                transition: "background 0.2s",
-                cursor: "pointer",
-                borderRadius: "8px",
-                margin: "0.12rem 0",
-              }}
-              onClick={() => setMobileMenu(false)}
-              onMouseEnter={e => e.target.style.background = darkMode ? "rgba(255,255,255,0.09)" : "rgba(74,107,138,0.14)"}
-              onMouseLeave={e => e.target.style.background = "none"}
-            >
-              {tab.icon} {tab.label}
-            </a>
-          ))}
-          <button
-            style={{
-              color: getIconColor(darkMode),
-              background: "none",
-              border: "none",
-              fontWeight: 600,
-              fontSize: "1.09rem",
-              padding: "1.05rem 1.4rem",
-              display: "flex",
-              alignItems: "center",
-              borderBottom: `1px solid ${darkMode ? "#3A5378" : "#E5E5E5"}`,
-              gap: '1rem',
-              transition: "background 0.2s",
-              cursor: "pointer",
-              borderRadius: "8px",
-              margin: "0.12rem 0",
-            }}
-            onClick={() => {
-              setProfileMenu(!profileMenu);
-              setMobileMenu(false);
-            }}
-            onMouseEnter={e => e.target.style.background = darkMode ? "rgba(255,255,255,0.09)" : "rgba(74,107,138,0.14)"}
-            onMouseLeave={e => e.target.style.background = "none"}
-          >
-            <FaUserCircle size={22} style={{ marginRight: 10 }} /> Profil
-          </button>
-          <div style={{
-            display: profileMenu ? "flex" : "none",
-            flexDirection: "column",
-            padding: "1rem",
-            borderTop: `1px solid ${darkMode ? "#3A5378" : "#E5E5E5"}`,
-            marginTop: "1rem"
-          }}>
-            <a href="/login" style={{
-              color: getIconColor(darkMode),
-              fontWeight: 700,
-              textDecoration: 'none',
-              fontSize: "1rem"
-            }}
-            >S'inscrire / Se connecter</a>
-            <button style={{
-              background: 'none',
-              border: 'none',
-              color: getIconColor(darkMode),
-              fontWeight: 600,
-              display: 'flex',
-              alignItems: 'center',
-              cursor: 'pointer',
-              fontSize: "1rem"
-            }}>
-              <FaBell size={20} style={{ marginRight: 8 }} /> Notifications
-            </button>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              fontSize: "1rem"
-            }}>
-              Apparence:
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: "0.3rem",
-                  borderRadius: "50%",
-                }}
+              <hr className="my-3 border-slate-700" />
+
+              <Link
+                href="/auth/login"
+                className="block rounded-xl px-4 py-2 font-semibold hover:bg-white/10"
+                onClick={() => setMobileMenu(false)}
               >
-                {darkMode ? <FaSun size={19} color="#F9B872" /> : <FaMoon size={19} color={getIconColor(darkMode)} />}
+                Se connecter
+              </Link>
+              <Link
+                href="/auth/register"
+                className="block rounded-xl px-4 py-2 font-semibold hover:bg-white/10"
+                onClick={() => setMobileMenu(false)}
+              >
+                S&apos;inscrire
+              </Link>
+
+              <button className="flex w-full items-center rounded-xl px-4 py-2 text-left hover:bg-white/10">
+                <FaBell className="mr-2" /> Notifications
               </button>
+
+              <div className="mt-2 flex items-center justify-between rounded-xl px-4 py-2 hover:bg-white/5">
+                <span className="text-sm font-semibold">Apparence</span>
+                <button
+                  onClick={() => {
+                    toggleTheme();
+                  }}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-black/40"
+                >
+                  {darkMode ? (
+                    <FaSun className="text-amber-300" />
+                  ) : (
+                    <FaMoon className="text-slate-100" />
+                  )}
+                </button>
+              </div>
+
+              <Link
+                href="/booking"
+                className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white shadow shadow-emerald-500/40 hover:bg-emerald-400"
+                onClick={() => setMobileMenu(false)}
+              >
+                Réserver un guide
+              </Link>
             </div>
           </div>
         </div>
-      </nav>
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideIn {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-        @media (max-width: 860px) {
-          .desktop-nav { display: none !important; }
-          .mobile-nav-toggle { display: block !important; }
-        }
-        @media (min-width: 861px) {
-          .mobile-nav { display: none !important; }
-          .mobile-nav-toggle { display: none !important; }
-          .desktop-nav { display: flex !important; }
-        }
-      `}</style>
+      )}
     </>
   );
 }

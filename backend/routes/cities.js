@@ -1,0 +1,1 @@
+// pour la table cities (wilayas/communes) utilisée dans les formulaires et la recherche

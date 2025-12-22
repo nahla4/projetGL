@@ -1,0 +1,1 @@
+// pour la table payments (paiements en ligne, si tu l’implémentes)
