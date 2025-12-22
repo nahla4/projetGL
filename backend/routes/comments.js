@@ -1,0 +1,1 @@
+// pour la table comments (notes et avis sur tours / guides)
