@@ -1,0 +1,111 @@
+.explore-container {
+  display: flex;
+  padding: 20px;
+  background: #f8faf9;
+}
+
+.filters {
+  width: 300px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  font-weight: 400;
+}
+.checkbox{
+  display: grid;
+  gap: 0;
+}
+h2 {
+  display: block;
+  margin-top: 15px;
+  font-weight: 700;
+  color: #22c55e;
+  font-size: 23px;
+}
+h1{
+    display: block;
+  margin-top: 15px;
+  font-weight: 700;
+  color: #000000;
+  font-size: 35px;
+}
+
+.filters select,
+.filters input {
+  width: 100%;
+  margin-top: 5px;
+  height: 25px;
+}
+
+.apply-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background: #22c55e;
+  border: none;
+  color: white;
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tours {
+  flex: 1;
+  margin-left: 25px;
+}
+
+.tour-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.tour-card {
+  background: rgb(216, 255, 231);
+  padding: 15px;
+  border-radius: 14px;
+  position: relative;
+}
+
+.tour-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.badge {
+ 
+  top: 12px;
+  left: 12px;
+  
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.details-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.booking-btn{
+  margin-top: 10px;
+  width: 50%;
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
