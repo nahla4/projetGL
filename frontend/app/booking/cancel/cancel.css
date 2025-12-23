@@ -1,0 +1,157 @@
+/* ===== Cancel Booking Page ===== */
+
+* {
+  box-sizing: border-box;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f7faf8;
+}
+
+/* Page Centering */
+.cancel-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* Card */
+.cancel-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+}
+
+/* Title */
+.cancel-card h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Subtitle */
+.cancel-card p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* Tour Summary */
+.tour-summary {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: #f0fdf4;
+  border-radius: 14px;
+  padding: 14px;
+  margin: 24px 0;
+}
+
+.tour-summary img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.tour-summary h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.tour-summary span {
+  display: block;
+  font-size: 13px;
+  color: #16a34a;
+}
+
+/* Reason Section */
+.reason-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Radio List */
+.reason-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reason-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reason-item:hover {
+  border-color: #22c55e;
+  background: #f0fdf4;
+}
+
+.reason-item input {
+  accent-color: #22c55e;
+}
+
+/* Actions */
+.cancel-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.btn-cancel {
+  flex: 1;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: #f9fafb;
+}
+
+.btn-confirm {
+  flex: 1;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: #22c55e;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-confirm:hover {
+  background: #16a34a;
+}
+
+/* Help Link */
+.help-link {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.help-link a {
+  color: #22c55e;
+  text-decoration: none;
+  font-weight: 600;
+}
