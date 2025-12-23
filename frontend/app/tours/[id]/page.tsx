@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 import {useBookings, Tour as TourType } from "../booking/reserve/page";
@@ -23,6 +24,7 @@ const toursData: Tour[] = [
   { id: 3, title: "Msila Tour", location: "M'Sila", duration: "one-day", price: 10000, rating: 4.2, image: "/images/msila.jpg", guide: "ahmad", desc:"aaaaaaaaaaaaaaaaaaaa" },
 ];
 
+
 const algerianStates = [
   "Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar",
   "Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Algiers",
@@ -42,7 +44,7 @@ export default function ExploreTours() {
   const [selectedDuration, setSelectedDuration] = useState<string[]>([]);
   const [filteredTours, setFilteredTours] = useState<Tour[]>(toursData);
 
-
+  const router = useRouter();
   const handleBooking = (tour: Tour) => {
     addBooking({
       ...tour,
@@ -130,9 +132,12 @@ export default function ExploreTours() {
             </div>
           ))}
         </div>
+          <div style={{ textAlign: "center", marginTop: "30px" }}>
+        <button className="apply-btn" onClick={() => router.push("/booking")}>
+          My Bookings
+        </button>
+      </div>
       </main>
     </div>
   );
 }
-
-
