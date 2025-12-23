@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {useBookings, Tour as TourType } from "../booking/bookingcontext";
+import {useBookings, Tour as TourType } from "../booking/reserve/page";
 import "./tours.css";
 
 export type Tour = {
