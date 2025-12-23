@@ -16,11 +16,11 @@ export default function CancelBooking() {
 
   const handleConfirm = () => {
     if (!selectedReason) {
-      alert("يرجى اختيار سبب الإلغاء.");
+      alert("Please select a reason for cancellation.");
       return;
     }
     cancelBooking(bookingId, selectedReason);
-    router.push("/booking"); // العودة لصفحة MyBookings
+    router.push("/booking"); 
   };
 
   const handleKeep = () => {
