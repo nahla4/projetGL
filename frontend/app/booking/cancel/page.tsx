@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useParams } from "next/navigation";
-import { useBookings } from "../../bookingcontext";
+import { useBookings } from "../../reserve/page";
 import { useState } from "react";
 import "./cancel.css";
 
