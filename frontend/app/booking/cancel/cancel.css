@@ -1,157 +1,108 @@
-/* ===== Cancel Booking Page ===== */
-
-* {
-  box-sizing: border-box;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-body {
-  margin: 0;
-  background: #f7faf8;
-}
-
-/* Page Centering */
-.cancel-page {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-}
-
-/* Card */
-.cancel-card {
-  background: #ffffff;
-  width: 100%;
-  max-width: 480px;
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
-}
-
-/* Title */
-.cancel-card h1 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  text-align: center;
-}
-
-/* Subtitle */
-.cancel-card p {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #6b7280;
-  text-align: center;
-}
-
-/* Tour Summary */
-.tour-summary {
+/* ================== Layout ================== */
+.modal-container {
+  height: 100vh;
+  width: 100vw;
   display: flex;
-  gap: 14px;
+  justify-content: center;
   align-items: center;
-  background: #f0fdf4;
-  border-radius: 14px;
-  padding: 14px;
-  margin: 24px 0;
+}
+.modal{
+  height: 40vh;
+  width: 30vw;
+  background-color: #d5ffdc;
+ padding: 50px;
 }
 
-.tour-summary img {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  object-fit: cover;
+
+.titlec {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12px;
+  color: #111;
 }
 
-.tour-summary h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.tour-summary span {
-  display: block;
-  font-size: 13px;
-  color: #16a34a;
-}
-
-/* Reason Section */
-.reason-title {
+.descriptionc {
+  text-align: center;
+  color: #666;
+  margin-bottom: 24px;
   font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 10px;
 }
 
-/* Radio List */
 .reason-list {
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
-.reason-item {
+.sectionLabel {
+  font-weight: 100;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.reasonOption {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 14px;
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s;
 }
 
-.reason-item:hover {
-  border-color: #22c55e;
-  background: #f0fdf4;
+.reasonOption:hover {
+  background-color: #f9f9f9;
 }
 
-.reason-item input {
-  accent-color: #22c55e;
-}
-
-/* Actions */
-.cancel-actions {
+/* ================== Buttons ================== */
+.modal-actions {
   display: flex;
-  gap: 14px;
-  margin-top: 28px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
-.btn-cancel {
+.cancelBtn,
+.keepBtn {
   flex: 1;
-  padding: 14px;
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-}
-
-.btn-cancel:hover {
-  background: #f9fafb;
-}
-
-.btn-confirm {
-  flex: 1;
-  padding: 14px;
-  border-radius: 14px;
   border: none;
-  background: #22c55e;
+}
+
+.cancelBtn {
+  background-color: #d41818;
   color: #ffffff;
-  font-weight: 700;
-  cursor: pointer;
 }
 
-.btn-confirm:hover {
-  background: #16a34a;
+.cancelBtn:hover {
+   color: #d41818;
+  background-color: #fff;
 }
 
-/* Help Link */
-.help-link {
-  margin-top: 18px;
-  text-align: center;
-  font-size: 13px;
+.keepBtn {
+  background-color: #10b981;
+  color: white;
 }
 
-.help-link a {
-  color: #22c55e;
-  text-decoration: none;
-  font-weight: 600;
+.keepBtn:hover {
+  background-color: #ffffff;
+  color: #10b981;
+}
+
+
+
+
+/* ================== Mobile ================== */
+@media (max-width: 480px) {
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
 }
