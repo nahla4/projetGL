@@ -20,7 +20,7 @@ export default function CancelBooking() {
       return;
     }
     cancelBooking(bookingId, selectedReason);
-    router.push("/booking"); 
+    router.push("/booking"); // العودة لصفحة MyBookings
   };
 
   const handleKeep = () => {
@@ -30,33 +30,33 @@ export default function CancelBooking() {
   return (
     <div className="modal-container">
       <div className="modal">
-        <h2>Cancel Booking Request</h2>
-        <p>This action cannot be undone.</p>
+        <h2 className="titlec">Cancel Booking Request</h2>
+        <p className="descriptionc">This action cannot be undone.</p>
 
         <div className="reason-list">
-          <label>
+          <label className="sectionLabel">
             <input type="radio" name="reason" value="Change of plans" checked={selectedReason === "Change of plans"} onChange={e => setSelectedReason(e.target.value)} />
             Change of plans
           </label>
-          <label>
+          <label className="sectionLabel">
             <input type="radio" name="reason" value="Found another tour" checked={selectedReason === "Found another tour"} onChange={e => setSelectedReason(e.target.value)} />
             Found another tour
           </label>
-          <label>
+          <label className="sectionLabel">
             <input type="radio" name="reason" value="Personal reasons" checked={selectedReason === "Personal reasons"} onChange={e => setSelectedReason(e.target.value)} />
             Personal reasons
           </label>
-          <label>
+          <label className="sectionLabel">
             <input type="radio" name="reason" value="Other" checked={selectedReason === "Other"} onChange={e => setSelectedReason(e.target.value)} />
             Other
           </label>
         </div>
 
         <div className="modal-actions">
-          <button className="btn-danger" onClick={handleConfirm}>
+          <button className="cancelBtn" onClick={handleConfirm}>
             Confirm Cancellation
           </button>
-          <button className="btn-primary" onClick={handleKeep}>
+          <button className="keepBtn" onClick={handleKeep}>
             Keep Booking
           </button>
         </div>
@@ -64,4 +64,3 @@ export default function CancelBooking() {
     </div>
   );
 }
-
