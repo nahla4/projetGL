@@ -1,117 +1,89 @@
-.container{ 
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useBookings } from "./reserve/page";
+
+import "./bookings.css";
+
+
+export default function MyBookings() {
+  const router = useRouter();
+  const { bookings } = useBookings();
+
+   const renderActions = (status: string, id: number) => {
+  const bookingId = id.toString();
+
+  switch (status) {
+    case "Pending":
+      return (
+        <button
+          className="btn-danger"
+          onClick={() => router.push(`/booking/cancel/${bookingId}`)}
+        >
+          Cancel
+        </button>
+      );
+
+    case "Accepted":
+    case "Confirmed":
+      return (
+        <>
+          <button
+            className="btn-success"
+            onClick={() =>
+              router.push(`/booking/confirmed/${bookingId}`)
+            }
+          >
+            View Booking
+          </button>
+
+          <button
+            className="btn-danger"
+            onClick={() =>
+              router.push(`/booking/cancel/${bookingId}`)
+            }
+          >
+            Cancel
+          </button>
+        </>
+      );
+
+    default:
+      return null;
+  }
+};
+
+
+  return (
+    <div className="container">
+      <div className="cont-book">
+      <h1 className="titleb">My Booking Requests</h1>
+
+      <div className="booking-list">
+        {bookings.length === 0 && <p>No bookings yet</p>}
+
+        {bookings.map((b) => (
+          <div className="booking-card" key={b.id}>
+            <img src={b.image} alt={b.title} />
+
+            <div className="booking-content">
+              <span className={`badge ${b.status.toLowerCase()}`}>
+                {b.status.toUpperCase()}
+              </span>
+
+              <h3>{b.title}</h3>
+              <p>📅 {b.date}</p>
+              <p>👤 Guide: {b.guide}</p>
+              {b.guests && <p>👥 {b.guests} Guests</p>}
+
+              <div className="actions">
+                {renderActions(b.status, b.id)}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      </div>
+    </div>
+  );
 }
-
-.cont-book{
-  width: 90vw;
-  height: 90vh;
-  
-}
-.titleb{
-  color: #16a34a;
-  position: center;
-}
-.booking-list{
-  width: 90vw;
-  padding: 10px;
-  gap: 10px;
-   display: flex;
-  
-  flex-direction: column;
-}
-.booking-card{
-  width: 85vw;
-  background-color: #c2ffd3;
-  padding: 20px;
-}
-
-
-
-
-
-
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.btn-danger {
-  color: #dc2626;
-  background-color: #fff;
-  
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  width: 15vw;
-}
-
-.btn-danger:hover {
- background: #dc2626;
-  color: white;
-  font-weight: 700;
-}
-
-.btn-success {
-  background-color: #fff;
-  color: #16a34a;
- 
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  width: 15vw;
-}
-
-.btn-success:hover {
-  background: #16a34a;
-  color: white;
-  font-weight: 700;
-}
-
-
-
-.badge {
-  padding: 4px 10px;
-  border-radius: 6px;
-  display: inline-block;
-  margin-bottom: 8px;
-  font-weight: 400;
-}
-
-/* الانتظار */
-.badge.pending {
-  background-color: rgb(255, 255, 111);
-  color: black;
-  font-weight: 400;
-}
-
-/* مقبول */
-.badge.accepted {
-  background-color: rgb(78, 202, 78);
-  color: white;
-  font-weight: 400;
-}
-
-/* مرفوض */
-.badge.rejected {
-  background-color: rgb(224, 64, 64);
-  color: white;
-  font-weight: 400;
-}
-
-
-.booking-card img {
-  width: 120px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
