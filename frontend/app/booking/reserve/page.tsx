@@ -10,6 +10,8 @@ export type Tour = {
   price: number;
   rating: number;
   guide: string;
+  emailguide:string;
+  locationgps:string,
   image: string;
   desc: string;
 };
