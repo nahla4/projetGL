@@ -13,15 +13,17 @@ export type Tour = {
   price: number;
   rating: number;
   guide: string;
+  emailguide:string;
+  locationgps:string;
   image: string;
   desc: string;
 };
 
 
 const toursData: Tour[] = [
-  { id: 1, title: "Casbah Historical Walk", location: "Algiers", duration: "half-day", price: 3500, rating: 4.9, image: "/images/casbah.jpg", guide: "rayane", desc:"cccccccccccccccccccc" },
-  { id: 2, title: "Sahara Adventure Trek", location: "Djanet", duration: "multi-day", price: 45000, rating: 4.5, image: "/images/sahara.jpg", guide: "mohamad", desc:"bbbbbbbbbbbbbbbbbbb" },
-  { id: 3, title: "Msila Tour", location: "M'Sila", duration: "one-day", price: 10000, rating: 4.2, image: "/images/msila.jpg", guide: "ahmad", desc:"aaaaaaaaaaaaaaaaaaaa" },
+  { id: 1, title: "Casbah Historical Walk", location: "Algiers", duration: "half-day", price: 3500, rating: 4.9, image: "/images/casbah.jpg", guide: "rayane",emailguide:"rayane@gmail.com", desc:"cccccccccccccccccccc",locationgps:"/image/gps.jpg" },
+  { id: 2, title: "Sahara Adventure Trek", location: "Djanet", duration: "multi-day", price: 45000, rating: 4.5, image: "/images/sahara.jpg", guide: "mohamad" ,emailguide:"mohamed@gmail.com", desc:"bbbbbbbbbbbbbbbbbbb", locationgps:"/image/gps.jpg" },
+  { id: 3, title: "Msila Tour", location: "M'Sila", duration: "one-day", price: 10000, rating: 4.2, image: "/images/msila.jpg", guide: "ahmad" ,emailguide:"ahmed@gmail.com", desc:"aaaaaaaaaaaaaaaaaaaa",locationgps:"/image/gps.jpg" },
 ];
 
 
@@ -141,3 +143,5 @@ export default function ExploreTours() {
     </div>
   );
 }
+
+
