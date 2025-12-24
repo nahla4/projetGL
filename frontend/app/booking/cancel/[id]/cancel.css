@@ -1,0 +1,109 @@
+/* ================== Layout ================== */
+.modal-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal{
+  height: 40vh;
+  width: 30vw;
+  background-color: #d5ffdc;
+ padding: 50px;
+}
+
+
+.titlec {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.descriptionc {
+  text-align: center;
+  color: #666;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.reason-list {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionLabel {
+  font-weight: 100;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.reasonOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.reasonOption:hover {
+  background-color: #f9f9f9;
+}
+
+/* ================== Buttons ================== */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.cancelBtn,
+.keepBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.cancelBtn {
+  background-color: #d41818;
+  color: #ffffff;
+}
+
+.cancelBtn:hover {
+   color: #d41818;
+  background-color: #fff;
+}
+
+.keepBtn {
+  background-color: #10b981;
+  color: white;
+}
+
+.keepBtn:hover {
+  background-color: #ffffff;
+  color: #10b981;
+}
+
+
+
+
+/* ================== Mobile ================== */
+@media (max-width: 480px) {
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+}
+
