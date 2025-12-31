@@ -1,34 +1,119 @@
 import express from "express";
+const router = express.Router();
+
 import {
-  createReservation,
-  myReservations,
-  guideRequests,
-  approveReservation,
-  proposeNewDate,
-  acceptProposedDate,
-} from "../controllers/reservation.mjs";
+  authenticate,
+  authorizeGuide,
+  authorizeTourist,
+  checkVerified,
+} from "../middlewares/auth.mjs";
 
-import { protect } from "../middlewares/auth.mjs";
+import * as ReservationController from "../controllers/reservation.mjs";
 
-// Router for reservation routes
-const reservationRouter = express.Router();
+import {
+  validateReservationCreation,
+  validateReservationStatusUpdate,
+} from "../validators/reservationValidator.mjs";
 
-// Create reservation
-reservationRouter.post("/", protect, createReservation);
+import { validate } from "../middlewares/validate.mjs";
 
-// Get my reservations
-reservationRouter.get("/my", protect, myReservations);
+//  CREATE RESERVATION (Tourist)
+router.post(
+  "/",
+  authenticate,
+  authorizeTourist,
+  checkVerified,
+  validateReservationCreation,
+  validate,
+  ReservationController.createReservation
+);
 
-// Get guide requests
-reservationRouter.get("/guide", protect, guideRequests);
+//  GET SINGLE RESERVATION
+// (Tourist or Guide – owner only)
+router.get(
+  "/:reservationID",
+  authenticate,
+  ReservationController.getReservationById
+);
 
-// Approve reservation
-reservationRouter.patch("/:id/approve", protect, approveReservation);
+// GET USER RESERVATIONS
+// (Tourist or Guide)
+router.get("/", authenticate, ReservationController.getUserReservations);
 
-// Propose new date
-reservationRouter.patch("/:id/propose-new-date", protect, proposeNewDate);
+// GET UPCOMING RESERVATIONS
+// Dashboard widget (Tourist / Guide)
+router.get(
+  "/upcoming/list",
+  authenticate,
+  ReservationController.getUpcomingReservations
+);
 
-// Accept proposed date
-reservationRouter.patch("/:id/accept-new-date", protect, acceptProposedDate);
+// UPDATE STATUS (Guide)
+// confirm / cancel / reschedule
+router.patch(
+  "/:reservationID/status",
+  authenticate,
+  authorizeGuide,
+  checkVerified,
+  validateReservationStatusUpdate,
+  validate,
+  ReservationController.updateReservationStatus
+);
 
-export default reservationRouter;
+// CANCEL RESERVATION
+// Tourist or Guide
+router.patch(
+  "/:reservationID/cancel",
+  authenticate,
+  ReservationController.cancelReservation
+);
+
+// ACCEPT RESCHEDULE (Tourist)
+router.patch(
+  "/:reservationID/accept-reschedule",
+  authenticate,
+  authorizeTourist,
+  ReservationController.acceptReschedule
+);
+
+// REJECT RESCHEDULE (Tourist)
+router.patch(
+  "/:reservationID/reject-reschedule",
+  authenticate,
+  authorizeTourist,
+  ReservationController.rejectReschedule
+);
+
+// UPDATE PAYMENT STATUS
+router.patch(
+  "/:reservationID/payment",
+  authenticate,
+  ReservationController.updatePaymentStatus
+);
+
+// MARK AS COMPLETED (Guide)
+// After endDate
+router.patch(
+  "/:reservationID/complete",
+  authenticate,
+  authorizeGuide,
+  ReservationController.markAsCompleted
+);
+
+// GUIDE STATISTICS
+router.get(
+  "/stats/guide",
+  authenticate,
+  authorizeGuide,
+  ReservationController.getGuideStatistics
+);
+
+// TOURIST STATISTICS
+router.get(
+  "/stats/tourist",
+  authenticate,
+  authorizeTourist,
+  ReservationController.getTouristStatistics
+);
+
+export default router;
