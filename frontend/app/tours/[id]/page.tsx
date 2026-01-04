@@ -1,53 +1,20 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { toursData, Tour, useBookings } from "../../booking/reserve/page"; // تأكدي من المسار
+import "../../booking/confirmed/[id]/confirmed.css";
 
-import { useState } from "react";
-import {useBookings, Tour as TourType } from "../booking/reserve/page";
-import "./tours.css";
-
-export type Tour = {
-  id: number;
-  title: string;
-  location: string;
-  duration: string;
-  price: number;
-  rating: number;
-  guide: string;
-  emailguide:string;
-  locationgps:string;
-  image: string;
-  desc: string;
-};
-
-
-const toursData: Tour[] = [
-  { id: 1, title: "Casbah Historical Walk", location: "Algiers", duration: "half-day", price: 3500, rating: 4.9, image: "/images/casbah.jpg", guide: "rayane",emailguide:"rayane@gmail.com", desc:"cccccccccccccccccccc",locationgps:"/image/gps.jpg" },
-  { id: 2, title: "Sahara Adventure Trek", location: "Djanet", duration: "multi-day", price: 45000, rating: 4.5, image: "/images/sahara.jpg", guide: "mohamad" ,emailguide:"mohamed@gmail.com", desc:"bbbbbbbbbbbbbbbbbbb", locationgps:"/image/gps.jpg" },
-  { id: 3, title: "Msila Tour", location: "M'Sila", duration: "one-day", price: 10000, rating: 4.2, image: "/images/msila.jpg", guide: "ahmad" ,emailguide:"ahmed@gmail.com", desc:"aaaaaaaaaaaaaaaaaaaa",locationgps:"/image/gps.jpg" },
-];
-
-
-const algerianStates = [
-  "Adrar","Chlef","Laghouat","Oum El Bouaghi","Batna","Béjaïa","Biskra","Béchar",
-  "Blida","Bouira","Tamanrasset","Tébessa","Tlemcen","Tiaret","Tizi Ouzou","Algiers",
-  "Djelfa","Jijel","Sétif","Saïda","Skikda","Sidi Bel Abbès","Annaba","Guelma",
-  "Constantine","Médéa","Mostaganem","M'Sila","Mascara","Ouargla","Oran","El Bayadh",
-  "Illizi","Bordj Bou Arréridj","Boumerdès","El Tarf","Tindouf","Tissemsilt","El Oued",
-  "Khenchela","Souk Ahras","Tipaza","Mila","Aïn Defla","Naâma","Aïn Témouchent","Ghardaïa",
-  "Relizane","Timimoun","Bordj Badji Mokhtar","Ouled Djellal","Béni Abbès","In Salah",
-  "In Guezzam","Touggourt","Djanet","El M'Ghair","El Meniaa"
-];
-
-export default function ExploreTours() {
-  const { addBooking } = useBookings(); // 🔹 استخدام السياق مباشرة
-  const [selectedTourId, setSelectedTourId] = useState<number | null>(null);
-   const [selectedState, setSelectedState] = useState<string>("");
-  const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  const [selectedDuration, setSelectedDuration] = useState<string[]>([]);
-  const [filteredTours, setFilteredTours] = useState<Tour[]>(toursData);
-
+export default function TourDetailsPage() {
+  const { id } = useParams();
   const router = useRouter();
-  const handleBooking = (tour: Tour) => {
+
+  const { addBooking } = useBookings(); // ✅ يجب استدعاؤه داخل الكومبوننت
+
+  const tour: Tour | undefined = toursData.find((t: Tour) => t.id.toString() === id);
+
+  if (!tour) return <p>Tour not found.</p>;
+
+  // ✅ handleBooking داخل الكومبوننت
+  const handleBooking = () => {
     addBooking({
       ...tour,
       status: "Pending",
@@ -57,91 +24,49 @@ export default function ExploreTours() {
     alert(`Booking request sent: ${tour.title}`);
   };
 
-  const handleDetails = (id: number) => {
-    setSelectedTourId(selectedTourId === id ? null : id);
-  };
-
-  const handleDurationChange = (value: string) => {
-    setSelectedDuration(prev =>
-      prev.includes(value) ? prev.filter(d => d !== value) : [...prev, value]
-    );
-  };
-
-  const applyFilters = () => {
-    let result = toursData;
-    if (selectedState) result = result.filter(tour => tour.location === selectedState);
-    if (maxPrice !== null) result = result.filter(tour => tour.price <= maxPrice);
-    if (selectedDuration.length > 0) result = result.filter(tour => selectedDuration.includes(tour.duration));
-    setFilteredTours(result);
-  };
-
   return (
-    <div className="explore-container">
-      <aside className="filters">
-        <h1>Filters</h1>
+    <div className="confirmed-container">
+      <header className="confirmed-header">
+        <h2>Tour Details</h2>
+      </header>
 
-        <h2>Location</h2>
-        <select value={selectedState} onChange={e => setSelectedState(e.target.value)}>
-          <option value="">All Wilayas</option>
-          {algerianStates.map(state => (
-            <option key={state} value={state}>{state}</option>
-          ))}
-        </select>
+      <section className="confirmation-box">
+        <h1>{tour.title}</h1>
+        <span className="ref">Tour ID: #{tour.id}</span>
+      </section>
 
-        <h2>Max Price</h2>
-        <input type="number" placeholder="Enter max price" value={maxPrice ?? ""} onChange={e => setMaxPrice(e.target.value ? Number(e.target.value) : null)} />
+      <div className="details">
+        <div className="card">
+          <h3>Tour Information</h3>
+          <p>📍 Location: {tour.location}</p>
+          <p>⏰ Duration: {tour.duration}</p>
+          <p>👤 Guide: {tour.guide}</p>
+          <p>Email Guide: {tour.emailguide}</p>
+          <p>💰 Price: {tour.price} DZD</p>
+          <p>⭐ Rating: {tour.rating}</p>
+          <p>Description: {tour.desc}</p>
 
-        <h2>Duration</h2>
-        <div className="checkbox">
-          <label><input type="checkbox" checked={selectedDuration.includes("multi-day")} onChange={() => handleDurationChange("multi-day")} /> Multi-day</label>
-          <label><input type="checkbox" checked={selectedDuration.includes("one-day")} onChange={() => handleDurationChange("one-day")} /> One day</label>
-          <label><input type="checkbox" checked={selectedDuration.includes("half-day")} onChange={() => handleDurationChange("half-day")} /> Half day</label>
+          <button className="btn-primary" onClick={handleBooking}>
+            Book Now
+          </button>
+
+          <button
+            className="btn-primary"
+            onClick={() => router.push("/booking")}
+          >
+            My Bookings
+          </button>
         </div>
 
-        <button className="apply-btn" onClick={applyFilters}>Apply Filters</button>
-      </aside>
-
-      <main className="tours">
-        <h1>Explore Tours in Algeria</h1>
-        <div className="tour-grid">
-          {filteredTours.length === 0 && <p>No tours found</p>}
-          {filteredTours.map(tour => (
-            <div className="tour-card" key={tour.id}>
-              <img src={tour.image} alt={tour.title} />
-              <span className="badge">{tour.guide}</span>
-              <h3>{tour.title}</h3>
-              <p>{tour.location} • {tour.duration}</p>
-              <div className="card-footer">
-                <span className="price">{tour.price} DZD</span>
-                <span className="rating">⭐ {tour.rating}</span>
-              </div>
-
-              <button className="details-btn" onClick={() => handleDetails(tour.id)}>
-                {selectedTourId === tour.id ? "Hide Details" : "Details"}
-              </button>
-
-              {selectedTourId === tour.id && (
-                <div className="tour-details">
-                  <p><strong>Guide:</strong> {tour.guide}</p>
-                  <p><strong>Location:</strong> {tour.location}</p>
-                  <p><strong>Duration:</strong> {tour.duration}</p>
-                  <p><strong>Price:</strong> {tour.price} DZD</p>
-                  <p><strong>Rating:</strong> ⭐ {tour.rating}</p>
-                  <p><strong>Description:</strong> {tour.desc}</p>
-                  <button className="booking-btn" onClick={() => handleBooking(tour)}>Book Now</button>
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="location">
+          <h3>Location</h3>
+          <img className="gps" src={tour.locationgps} alt={tour.title} />
         </div>
-          <div style={{ textAlign: "center", marginTop: "30px" }}>
-        <button className="apply-btn" onClick={() => router.push("/booking")}>
-          My Bookings
-        </button>
       </div>
-      </main>
+
+      <footer className="confirmed-footer">
+        © 2024 Algeria Tours. All rights reserved.
+      </footer>
     </div>
   );
 }
-
-

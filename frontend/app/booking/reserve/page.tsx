@@ -10,11 +10,16 @@ export type Tour = {
   price: number;
   rating: number;
   guide: string;
-  emailguide:string;
-  locationgps:string,
+  emailguide: string;
+  locationgps: string;
   image: string;
   desc: string;
 };
+export const toursData: Tour[] = [
+  { id: 1, title: "Casbah Historical Walk", location: "Algiers", duration: "half-day", price: 3500, rating: 4.9, image: "/images/casbah.jpg", guide: "rayane", emailguide:"rayane@gmail.com", desc:"cccccccccccccccccccc", locationgps:"/image/gps.jpg" },
+  { id: 2, title: "Sahara Adventure Trek", location: "Djanet", duration: "multi-day", price: 45000, rating: 4.5, image: "/images/sahara.jpg", guide: "mohamad", emailguide:"mohamed@gmail.com", desc:"bbbbbbbbbbbbbbbbbbb", locationgps:"/image/gps.jpg" },
+  { id: 3, title: "Msila Tour", location: "M'Sila", duration: "one-day", price: 10000, rating: 4.2, image: "/images/msila.jpg", guide: "ahmad", emailguide:"ahmed@gmail.com", desc:"aaaaaaaaaaaaaaaaaaaa", locationgps:"/image/gps.jpg" },
+];
 
 export type Booking = Tour & {
   status: "Pending" | "Accepted" | "Rejected";
@@ -33,14 +38,9 @@ const BookingContext = createContext<BookingContextType | undefined>(undefined);
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
   const [bookings, setBookings] = useState<Booking[]>([]);
 
-  const addBooking = (booking: Booking) => {
-    setBookings((prev) => [...prev, booking]);
-  };
-
+  const addBooking = (booking: Booking) => setBookings(prev => [...prev, booking]);
   const cancelBooking = (id: number, reason?: string) => {
-    setBookings((prev) =>
-      prev.map((b) => (b.id === id ? { ...b, status: "Rejected" } : b))
-    );
+    setBookings(prev => prev.map(b => b.id === id ? { ...b, status: "Rejected" } : b));
     if (reason) console.log(`Booking ${id} canceled due to: ${reason}`);
   };
 

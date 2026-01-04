@@ -42,8 +42,7 @@ export default function BookingConfirmedPage() {
           <p>💰 Price: ${booking.price}</p>
           <p>⭐ Rating: {booking.rating}</p>
           <p>Desc: {booking.desc}</p>
-          <button className="btn-primary">Download Ticket</button>
-          
+        
         </div>
 
         <div className="location">
